@@ -1,0 +1,9 @@
+p {
+  font-family: Lato;
+}
+
+:host {
+  height: 100%;
+  display: block;
+}
+

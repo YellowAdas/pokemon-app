@@ -1,0 +1,13 @@
+.pokemon-list-group-item .typeColor {
+  position: absolute;
+  width: 8px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--borderColor);
+}
+
+.pokemon-detail-sprites {
+  height: 200px;
+  aspect-ratio: 1/1;
+}

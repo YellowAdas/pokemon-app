@@ -1,0 +1,40 @@
+<p>
+  <button class="btn btn-primary" (click)="goBackToList()"><</button>
+</p>
+<ng-container *ngIf="pokemonDetails$ | async as pokemonDetails">
+  <div>
+    <p>
+      <h4 class="text-capitalize">Pokemon {{ (pokemonDetails$ | async).name }}</h4>
+      <img class="pokemon-detail-sprites"[src]="(pokemonDetails$ | async).sprites.front_default" [alt]="" />
+    
+    
+    <div class="col-xs-12">
+      <p>Height {{ (pokemonDetails$ | async).height }}</p>
+      <div class="col-xs-5">
+        <p>Types:</p>
+        <ul class="list-group">
+          <li
+            class="list-group-item text-capitalize"
+            *ngFor="let types of (pokemonDetails$ | async).types"
+          >
+            {{ types.type.name }}
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-5">
+        <p>Abilities:</p>
+        <ul class="list-group">
+          <li
+            class="list-group-item text-capitalize"
+            style="cursor: pointer;"
+            [routerLink]="['ability', abilities.ability.name]"
+            *ngFor="let abilities of (pokemonDetails$ | async).abilities"
+          >
+            {{ abilities.ability.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div></ng-container
+>
+<router-outlet></router-outlet>
