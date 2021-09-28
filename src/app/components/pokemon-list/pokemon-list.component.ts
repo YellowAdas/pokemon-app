@@ -3,13 +3,13 @@ import { PageEvent } from '@angular/material/paginator/paginator';
 import { Observable } from 'rxjs';
 import { PokemonListItem } from '../../models/pokemon-list-item.model';
 import { Store, select } from '@ngrx/store';
-import { getList, setPagination, toggleFavs, initFavs  } from '../../state/listActions/listActions';
+import { getList, setPagination, toggleFavs, initFavs  } from '../../state/list/listActions';
 import {
   selectPokemonListItems,
   selectPokemonListPagination,
   selectFav,
   selectIsLoading
-} from '../../state/listActions/listReducers';
+} from '../../state/list/listReducers';
 import { PokemonDetails } from '../../models/pokemon-details.model';
 import { loadDetails } from 'src/app/state/PokemonDetail/detailsActions';
 

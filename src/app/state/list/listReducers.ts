@@ -50,6 +50,9 @@ export const ListReducer = createReducer<PokemonListState>(
     },
     isLoading: false,
   })),
+
+
+
   on(errorList, (state, action) => ({
     ...state,
     list: { pokemonList: [], error: action.message },

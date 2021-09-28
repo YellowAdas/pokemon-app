@@ -6,7 +6,7 @@ import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PokemonDetails, PokemonDetailsType, PokemonType } from '../../models/pokemon-details.model';
-import { selectPokemonListItems } from '../../state/listActions/listReducers';
+import { selectPokemonListItems } from '../../state/list/listReducers';
 import { loadTypes } from '../../state/types/types.actions';
 import { selectPokemonTypes } from '../../state/types/types.reducers';
 import { loadDetails } from '../../state/PokemonDetail/detailsActions';

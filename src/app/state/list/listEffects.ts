@@ -8,12 +8,13 @@ import {
   toggleFavs,
   initFavs,
   setFavs,
-} from '../../state/list/listActions';
+} from './listActions';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 import { PokemonApiService } from '../../PokemonApiService/pokemon-api.service';
 import { Store } from '@ngrx/store';
-import { selectFav, selectPokemonListPagination } from '../../state/list/listReducers'
+import { selectFav, selectPokemonListPagination } from './listReducers';
+import { loadListSuccess } from '../list via entities/listActions';
 @Injectable()
 export class ListEffects {
   constructor(
@@ -36,14 +37,19 @@ export class ListEffects {
           )
           .pipe(
             switchMap((result) => {
-              const resultRequests = result.results.map((pokemon) =>
-                this.pokemonApiService.fetchDetails(pokemon.name)
-              );
+              const resultIds = result.results.map((pokomon) => pokomon.name);
+              // przefiltrowac idki przed mapowaniem na fetch;
+              // ps. selector do uzycia w page list
+              // ps2. selctor do pobrania idikow;
+              const resultRequests = resultIds
+                //.filter( tutaj filtrowanie () => boolean - true to zostaw, false to zignoruj) // !([].inculdes())
+                .map((id) => this.pokemonApiService.fetchDetails(id));
               return forkJoin(resultRequests).pipe(
                 map((details) =>
-                  loadList({
+                  loadListSuccess({
                     pokemonListItems: details,
                     totalCount: result.count,
+                    list: resultIds,
                   })
                 )
               );
@@ -74,14 +80,13 @@ export class ListEffects {
     { dispatch: false }
   );
 
-  initFavorites$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(initFavs),
-        map(() => {
-          const parsed = JSON.parse(localStorage.getItem('Favorites')) ?? []
-          return setFavs({favorites : parsed});
-        })
-      )
+  initFavorites$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(initFavs),
+      map(() => {
+        const parsed = JSON.parse(localStorage.getItem('Favorites')) ?? [];
+        return setFavs({ favorites: parsed });
+      })
+    )
   );
 }

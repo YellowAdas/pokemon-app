@@ -16,8 +16,8 @@ import { PokemonListComponent } from './components/pokemon-list/pokemon-list.com
 import {
   ListReducer,
   pokemonListFeatureKey,
-} from './state/listActions/listReducers';
-import { ListEffects } from './state/listActions/listEffects';
+} from './state/list/listReducers';
+import { ListEffects } from './state/list/listEffects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PokemonTypeToColorPipe } from './pipes/pokemon-type-to-color.pipe';
 import { DetailsEffects } from './state/PokemonDetail/detailsEffects';

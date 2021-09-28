@@ -7,7 +7,7 @@ import {
 import {
   pokemonListFeatureKey,
   PokemonListState,
-} from './listActions/listReducers';
+} from './list/listReducers';
 
 import { pokemonAbilitiesFeatureKey, PokemonAbilitiesState, selectPokemonAbilities } from './abilities/abilities.reducer';
 import { pokemonTypesFeatureKey, PokemonTypesState } from './types/types.reducers';
