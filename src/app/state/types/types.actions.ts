@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PokemonType } from '../../pokemon-details.model';
+import { PokemonType } from '../../models/pokemon-details.model';
 
 export const loadTypes = createAction('[get-types-list] load types');
 

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PokemonDetails } from '../../pokemon-details.model';
+import { PokemonDetails } from '../../models/pokemon-details.model';
 
 export const setPagination = createAction(
   '[fetch-list] set list pagination',

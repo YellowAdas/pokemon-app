@@ -5,8 +5,8 @@ import {
   on,
   createSelector,
 } from '@ngrx/store';
-import { PokemonDetails } from '../../pokemon-details.model';
-import { AppState } from '../../state/state';
+import { PokemonDetails } from '../../models/pokemon-details.model';
+import { AppState } from '../state';
 import {
   errorList,
   getList,

@@ -3,11 +3,11 @@ import {
   pokemonDetailFeatureKey,
   PokemonDetailState,
   selectDetails,
-} from '../pokemon-detail/PokemonDetailStore/detailsReducers';
+} from './PokemonDetail/detailsReducers';
 import {
   pokemonListFeatureKey,
   PokemonListState,
-} from '../pokemon-list/store/listReducers';
+} from './listActions/listReducers';
 
 import { pokemonAbilitiesFeatureKey, PokemonAbilitiesState, selectPokemonAbilities } from './abilities/abilities.reducer';
 import { pokemonTypesFeatureKey, PokemonTypesState } from './types/types.reducers';

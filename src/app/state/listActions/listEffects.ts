@@ -8,12 +8,12 @@ import {
   toggleFavs,
   initFavs,
   setFavs,
-} from '../../state/listActions/listActions';
+} from './listActions';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 import { PokemonApiService } from '../../PokemonApiService/pokemon-api.service';
 import { Store } from '@ngrx/store';
-import { selectFav, selectPokemonListPagination } from '../../state/listActions/listReducers'
+import { selectFav, selectPokemonListPagination } from './listReducers';
 @Injectable()
 export class ListEffects {
   constructor(
@@ -25,7 +25,7 @@ export class ListEffects {
   loadList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getList),
-      concatLatestFrom((action) =>
+      concatLatesFrom((action) =>
         this.store.select(selectPokemonListPagination)
       ),
       switchMap(([action, pagination]) =>

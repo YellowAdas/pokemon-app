@@ -5,7 +5,7 @@ import {
   createFeatureSelector,
   on,
 } from '@ngrx/store';
-import { PokemonType } from '../../pokemon-details.model';
+import { PokemonDetailsType, PokemonType } from '../../models/pokemon-details.model';
 import * as typesActions from './types.actions';
 import { AppState } from '../../state/state';
 
@@ -17,7 +17,7 @@ export interface PokemonTypesState extends EntityState<PokemonType> {
 }
 
 export const adapter: EntityAdapter<PokemonType> =
-  createEntityAdapter<PokemonType>({selectId: (type)=> type.type.name});
+  createEntityAdapter<PokemonType>({selectId: (type)=> type.name});
 
 export const initialState: PokemonTypesState = adapter.getInitialState({
   // additional entity state properties

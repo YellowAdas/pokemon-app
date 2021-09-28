@@ -6,19 +6,19 @@ import {
   createFeatureSelector,
   on,
 } from '@ngrx/store';
-import { AbilityProps } from '../../pokemon-details.model';
+import { PokemonAbility } from '../../models/pokemon-details.model';
 import * as AbilitiesActions from './abilities.actions';
 import { AppState } from '../../state/state';
 
 
 
-export interface PokemonAbilitiesState extends EntityState<AbilityProps> {
+export interface PokemonAbilitiesState extends EntityState<PokemonAbility> {
   // additional state property
   isLoaded: boolean;
 }
 
-export const adapter: EntityAdapter<AbilityProps> =
-  createEntityAdapter<AbilityProps>({selectId: (ability)=> ability.name});
+export const adapter: EntityAdapter<PokemonAbility> =
+  createEntityAdapter<PokemonAbility>({selectId: (ability)=> ability.name});
 
 export const initialState: PokemonAbilitiesState = adapter.getInitialState({
   // additional entity state properties

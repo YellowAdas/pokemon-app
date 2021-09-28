@@ -12,7 +12,6 @@ import { getAbilities, loadAbilitiesSuccess } from './abilities.actions';
 export class AbilitiesListEffects {
   constructor(
     private pokemonApiService: PokemonApiService,
-    private store: Store,
     private actions$: Actions
   ) {}
 
