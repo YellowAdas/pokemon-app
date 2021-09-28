@@ -25,7 +25,7 @@ export class ListEffects {
   loadList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getList),
-      concatLatesFrom((action) =>
+      concatLatestFrom((action) =>
         this.store.select(selectPokemonListPagination)
       ),
       switchMap(([action, pagination]) =>
