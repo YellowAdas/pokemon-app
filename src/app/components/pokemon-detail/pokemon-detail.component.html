@@ -15,9 +15,9 @@
         <ul class="list-group">
           <li
             class="list-group-item text-capitalize"
-            *ngFor="let type of (pokemonDetails$ | async)"
+            *ngFor="let type of (pokemonDetails$ | async).types"
           >
-            {{ (types$) | async)[type.type.name]}}
+            {{ ( types$ | async )[type.type.name].name}}
           </li>
         </ul>
       </div>

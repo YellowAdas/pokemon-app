@@ -5,10 +5,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { getAbilities } from 'src/app/state/abilities/abilities.actions';
-import { AbilityProps } from '../../pokemon-details.model';
-import { selectPokemonAbilities } from '../../state/abilities/abilities.reducer';
-import { getAbilityProp } from '../PokemonDetailStore/detailsActions';
-import { selectAbilityProp } from '../PokemonDetailStore/detailsReducers';
+import { PokemonAbility } from '../../../models/pokemon-details.model';
+import { selectPokemonAbilities } from '../../../state/abilities/abilities.reducer';
+import { loadAbilityProp } from '../../../state/PokemonDetail/detailsActions';
+import { selectAbilityProp } from '../../../state/PokemonDetail/detailsReducers';
 
 @Component({
   selector: 'app-detail-ability',
@@ -23,7 +23,7 @@ export class DetailAbilityComponent implements OnInit {
   ) {}
 
   paramsName = this.route.snapshot.params['name'];
-  abilityProps$: Observable<AbilityProps> =    this.store.select(selectPokemonAbilities).pipe(map((abilities)=> abilities[this.paramsName]));
+  abilityProps$: Observable<PokemonAbility> =    this.store.select(selectPokemonAbilities).pipe(map((abilities)=> abilities[this.paramsName]));
 
  
   ngOnInit() {

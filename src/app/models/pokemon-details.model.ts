@@ -7,7 +7,7 @@ export interface PokemonDetails {
     front_default: string;
     back_default: string;
   };
-  types: PokemonType[];
+  types: PokemonDetailsType[];
 }
 
 export interface PokemonDetailsAbility {
@@ -25,7 +25,7 @@ export interface PokemonDetailsAbility {
   slot: number;
 }
 
-export interface PokemonType {
+export interface PokemonDetailsType {
   type: {
     name: string;
     url: string;
@@ -33,7 +33,7 @@ export interface PokemonType {
   slot: number;
 }
 
-export interface AbilityProps {
+export interface PokemonAbility {
   name: string;
   description: string;
   effect_entries: {
@@ -42,4 +42,9 @@ export interface AbilityProps {
     {name : string};
   }[];
   
+}
+
+
+export interface PokemonType {
+  name: string;
 }

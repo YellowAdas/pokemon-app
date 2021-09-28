@@ -11,16 +11,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { PokemonDetailComponent } from './pokemon-detail/pokemon-detail.component';
-import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
+import { PokemonDetailComponent } from './components/pokemon-detail/pokemon-detail.component';
+import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
 import {
   ListReducer,
   pokemonListFeatureKey,
-} from './pokemon-list/store/listReducers';
-import { ListEffects } from './pokemon-list/store/listEffects';
+} from './state/listActions/listReducers';
+import { ListEffects } from './state/listActions/listEffects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { PokemonTypeToColorPipe } from './pokemon-type-to-color.pipe';
-import { DetailsEffects } from './pokemon-detail/PokemonDetailStore/detailsEffects';
+import { PokemonTypeToColorPipe } from './pipes/pokemon-type-to-color.pipe';
+import { DetailsEffects } from './state/PokemonDetail/detailsEffects';
 import {
   pokemonAbilitiesReducer,
   pokemonAbilitiesFeatureKey,
@@ -28,12 +28,13 @@ import {
 import {
   DetailsReducer,
   pokemonDetailFeatureKey,
-} from './pokemon-detail/PokemonDetailStore/detailsReducers';
-import { DetailAbilityComponent } from './pokemon-detail/detail-ability/detail-ability.component';
-import { FindEngPipe } from './pokemon-detail/detail-ability/find-eng.pipe';
-import { HeaderComponent } from './header/header.component';
+} from './state/PokemonDetail/detailsReducers';
+import { DetailAbilityComponent } from './components/pokemon-detail/detail-ability/detail-ability.component';
+import { FindEngPipe } from './components/pokemon-detail/detail-ability/find-eng.pipe';
+import { HeaderComponent } from './components/header/header.component';
 import { AbilitiesListEffects } from './state/abilities/abilities.effects';
 import { pokemonTypesFeatureKey, pokemonTypesReducer } from './state/types/types.reducers';
+import { TypesListEffects } from './state/types/types.effects';
 
 const appRoutes: Routes = [
   { path: '', component: PokemonListComponent },
@@ -66,7 +67,7 @@ const appRoutes: Routes = [
       },
       {}
     ),
-    EffectsModule.forRoot([ListEffects, DetailsEffects, AbilitiesListEffects]),
+    EffectsModule.forRoot([ListEffects, DetailsEffects, AbilitiesListEffects, TypesListEffects]),
     StoreDevtoolsModule.instrument({}),
   ],
   declarations: [

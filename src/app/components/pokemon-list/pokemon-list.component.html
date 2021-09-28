@@ -1,0 +1,57 @@
+
+
+  <div class="row overlay-parent" *ngIf="toggleList">
+    <div *ngIf="isLoading$ | async" class="overlay">
+      <mat-spinner class="spinner" mode="indeterminate"> </mat-spinner>
+    </div>
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <ul class="list-group col-xs-5" >
+        <li
+          [style.--borderColor]="item.types | pokemonTypeToColor"
+          class="list-group-item border-left-width pokemon-list-group-item"
+          *ngFor="let item of items$ | async"
+        >
+          <div class="typeColor"></div>
+          <h3 class="text-capitalize">
+            <a [routerLink]="['/pokemonDetail', item.name]">{{ item.name }} </a>
+          </h3>
+          <img
+            class="pokemon-sprite"
+            loading="lazy"
+            [src]="item.sprites.front_default"
+          />
+          <img
+            class="pokemon-sprite"
+            loading="lazy"
+            [src]="item.sprites.back_default"
+          />
+          <div>
+            <mat-icon
+              style="cursor: pointer; "
+              [style.color]="
+                (favorites$ | async).includes(item.id) ? 'darkyellow' : 'gray'
+              "
+              (click)="onFavClick(item.id)"
+              aria-hidden="false"
+              aria-label="Example home icon"
+            >
+              {{
+                (favorites$ | async).includes(item.id) ? 'favorite' : 'favorite_border'
+              }}</mat-icon
+            >
+            <mat-icon></mat-icon>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <mat-paginator
+      [length]="(pagination$ | async).totalCount"
+      [pageSize]="(pagination$ | async).limit"
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      aria-label="Select page"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </div>
