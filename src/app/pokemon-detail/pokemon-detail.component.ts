@@ -3,8 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { PokemonDetails } from '../pokemon-details.model';
+import { map } from 'rxjs/operators';
+import { PokemonDetails, PokemonType } from '../pokemon-details.model';
 import { selectPokemonListItems } from '../pokemon-list/store/listReducers';
+import { loadTypes } from '../state/types/types.actions';
+import { selectPokemonTypes } from '../state/types/types.reducers';
 import { getDetails } from './PokemonDetailStore/detailsActions';
 import { selectDetails } from './PokemonDetailStore/detailsReducers';
 
@@ -21,9 +24,11 @@ export class PokemonDetailComponent implements OnInit {
   ) {}
 
   paramsName = this.route.snapshot.params['name'];
+  types$ : Observable<PokemonType> = this.store.select(selectPokemonTypes).pipe(map((types) => types.types.type[this.paramsName]));
 
   ngOnInit() {
     this.store.dispatch(getDetails({ idOrName: this.paramsName }));
+    this.store.dispatch(loadTypes());
   }
 
   pokemonDetails$: Observable<PokemonDetails> =

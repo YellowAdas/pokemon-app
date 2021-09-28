@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
+import { getAbilities } from 'src/app/state/abilities/abilities.actions';
 import { AbilityProps } from '../../pokemon-details.model';
 import { selectPokemonAbilities } from '../../state/abilities/abilities.reducer';
 import { getAbilityProp } from '../PokemonDetailStore/detailsActions';
@@ -26,7 +27,7 @@ export class DetailAbilityComponent implements OnInit {
 
  
   ngOnInit() {
-    this.store.dispatch(getAbilityProp({ name: this.paramsName }));
+    this.store.dispatch(getAbilities());
   }
   goBackToList() {
     this.router.navigate(['../../'], { relativeTo: this.route });
