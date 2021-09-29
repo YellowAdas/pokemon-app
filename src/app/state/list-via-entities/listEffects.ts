@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import {
-  getList,
-  loadList,
-  errorList,
   setPagination,
   toggleFavs,
   initFavs,
   setFavs,
+  loadListSuccess,
+  loadListCheck,
+  loadDetail,
+  loadDetailsSuccess,
+  loadList,
 } from './listActions';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { EMPTY, forkJoin, of, pipe } from 'rxjs';
 import { PokemonApiService } from '../../PokemonApiService/pokemon-api.service';
 import { Store } from '@ngrx/store';
-import { selectFav, selectPokemonListPagination } from './listReducers';
-import { loadListSuccess } from '../list via entities/listActions';
+import {
+  selectFav,
+  selectPokemonDetail,
+  selectPokemonListIds,
+  selectPokemonListPagination,
+} from './listReducers';
+
 @Injectable()
 export class ListEffects {
   constructor(
@@ -23,38 +30,64 @@ export class ListEffects {
     private pokemonApiService: PokemonApiService
   ) {}
 
+  loadDetail$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadDetail),
+      concatLatestFrom(() => this.store.select(selectPokemonListIds)),
+      switchMap(([action, ids]) => {
+        if (!(ids as string[]).includes(action.idOrName))
+          return this.pokemonApiService
+            .fetchDetails(action.idOrName)
+            .pipe(
+              map((pokemonDetails) => loadDetailsSuccess({ pokemonDetails }))
+            );
+        return EMPTY;
+      })
+    )
+  );
+
   loadList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getList),
-      concatLatestFrom((action) =>
-        this.store.select(selectPokemonListPagination)
-      ),
-      switchMap(([action, pagination]) =>
+      ofType(loadList),
+      concatLatestFrom(() => this.store.select(selectPokemonListPagination)),
+      switchMap(([_, pagination]) =>
         this.pokemonApiService
           .fetchList(
             pagination.limit,
             pagination.limit * pagination.currentPage
           )
           .pipe(
-            switchMap((result) => {
-              const resultIds = result.results.map((pokomon) => pokomon.name);
+            concatLatestFrom(() => this.store.select(selectPokemonListIds)),
+            switchMap(([result, ids]) => {
+              const resultIds = result.results.map((pokemon) => pokemon.name);
+
               // przefiltrowac idki przed mapowaniem na fetch;
               // ps. selector do uzycia w page list
               // ps2. selctor do pobrania idikow;
               const resultRequests = resultIds
+                .filter((id) => !(ids as string[]).includes(id))
+
                 //.filter( tutaj filtrowanie () => boolean - true to zostaw, false to zignoruj) // !([].inculdes())
                 .map((id) => this.pokemonApiService.fetchDetails(id));
-              return forkJoin(resultRequests).pipe(
-                map((details) =>
-                  loadListSuccess({
-                    pokemonListItems: details,
-                    totalCount: result.count,
-                    list: resultIds,
-                  })
-                )
+              if (resultRequests.length > 0) {
+                return forkJoin(resultRequests).pipe(
+                  map((details) =>
+                    loadListSuccess({
+                      pokemonListItems: details,
+                      totalCount: result.count,
+                      lista: resultIds,
+                    })
+                  )
+                );
+              }
+              return of(
+                loadListSuccess({
+                  pokemonListItems: [],
+                  totalCount: result.count,
+                  lista: resultIds,
+                })
               );
-            }),
-            catchError((error) => of(errorList({ message: error })))
+            })
           )
       )
     )
@@ -63,7 +96,7 @@ export class ListEffects {
   loadListOnPaginationChange$ = createEffect(() =>
     this.actions$.pipe(
       ofType(setPagination),
-      map(() => getList())
+      map(() => loadList())
     )
   );
 

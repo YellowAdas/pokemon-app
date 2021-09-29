@@ -1,23 +1,26 @@
 <p>
   <button class="btn btn-primary" (click)="goBackToList()"><</button>
 </p>
-<ng-container *ngIf="pokemonDetails$ | async as pokemonDetails">
+<ng-container *ngIf="pokemonDetail$ | async as pokemonDetail">
   <div>
     <p>
-      <h4 class="text-capitalize">Pokemon {{ (pokemonDetails$ | async).name }}</h4>
-      <img class="pokemon-detail-sprites"[src]="(pokemonDetails$ | async).sprites.front_default" [alt]="" />
+      <h4 class="text-capitalize">Pokemon {{ pokemonDetail.name }}</h4>
+      <img class="pokemon-detail-sprites"[src]="(pokemonDetail$ | async).sprites.front_default" [alt]="" />
     
     
     <div class="col-xs-12">
-      <p>Height {{ (pokemonDetails$ | async).height }}</p>
-      <div class="col-xs-5">
+      <p>Height {{ pokemonDetail.height }}</p>
+      <div class="col-xs-5"
+      >
         <p>Types:</p>
-        <ul class="list-group">
+        <ul class="list-group"
+            >
           <li
             class="list-group-item text-capitalize"
-            *ngFor="let type of (pokemonDetails$ | async).types"
+            
+            *ngFor="let type of pokemonDetail.types"
           >
-            {{ ( types$ | async )[type.type.name].name}}
+            {{ (types$| async)[type.type.name].name }}
           </li>
         </ul>
       </div>
@@ -28,7 +31,7 @@
             class="list-group-item text-capitalize"
             style="cursor: pointer;"
             [routerLink]="['ability', abilities.ability.name]"
-            *ngFor="let abilities of (pokemonDetails$ | async).abilities"
+            *ngFor="let abilities of (pokemonDetail$ | async).abilities"
           >
             {{ abilities.ability.name }}
           </li>

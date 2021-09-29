@@ -9,16 +9,13 @@ import {
 import { PokemonAbility } from '../../models/pokemon-details.model';
 import * as AbilitiesActions from './abilities.actions';
 import { AppState } from '../../state/state';
-
-
-
 export interface PokemonAbilitiesState extends EntityState<PokemonAbility> {
   // additional state property
   isLoaded: boolean;
 }
 
 export const adapter: EntityAdapter<PokemonAbility> =
-  createEntityAdapter<PokemonAbility>({selectId: (ability)=> ability.name});
+  createEntityAdapter<PokemonAbility>({ selectId: (ability) => ability.name });
 
 export const initialState: PokemonAbilitiesState = adapter.getInitialState({
   // additional entity state properties
@@ -32,14 +29,8 @@ export const pokemonAbilitiesReducer = createReducer(
   })
 );
 
-
-
-const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors();
+const { selectIds, selectEntities, selectAll, selectTotal } =
+  adapter.getSelectors();
 
 export const pokemonAbilitiesFeatureKey = 'PokemonAbilities';
 
@@ -57,4 +48,3 @@ export const pokemonAbilitiesIsLoaded = createSelector(
   selectPokemonAbilitiesState,
   (state) => state.isLoaded
 );
-

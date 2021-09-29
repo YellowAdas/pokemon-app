@@ -4,13 +4,17 @@ import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PokemonDetails, PokemonDetailsType, PokemonType } from '../../models/pokemon-details.model';
-import { selectPokemonListItems } from '../../state/list/listReducers';
-import { loadTypes } from '../../state/types/types.actions';
+import {
+  PokemonDetails,
+  PokemonType,
+} from '../../models/pokemon-details.model';
 import { selectPokemonTypes } from '../../state/types/types.reducers';
-import { loadDetails } from '../../state/PokemonDetail/detailsActions';
-import { selectDetails } from '../../state/PokemonDetail/detailsReducers';
+import {
+  selectPokemonDetail,
+  selectPokemonListItems,
+} from 'src/app/state/list-via-entities/listReducers';
+import { map } from 'rxjs/operators';
+import { loadDetail } from 'src/app/state/list-via-entities/listActions';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -24,16 +28,17 @@ export class PokemonDetailComponent implements OnInit {
     private store: Store<{}>
   ) {}
 
+  pokemonDetail$: Observable<PokemonDetails> = this.store
+    .select(selectPokemonDetail)
+    .pipe(map((abilities) => abilities[this.paramsName]));
+
   paramsName = this.route.snapshot.params['name'];
-  types$ : Observable<Dictionary<PokemonType>> = this.store.select(selectPokemonTypes);
+  types$: Observable<Dictionary<PokemonType>> =
+    this.store.select(selectPokemonTypes);
 
   ngOnInit() {
-    this.store.dispatch(loadDetails({ idOrName: this.paramsName }));
-    this.store.dispatch(loadTypes());
+    this.store.dispatch(loadDetail({ idOrName: this.paramsName }));
   }
-
-  pokemonDetails$: Observable<PokemonDetails> =
-    this.store.select(selectDetails);
 
   goBackToList() {
     this.router.navigate(['']);

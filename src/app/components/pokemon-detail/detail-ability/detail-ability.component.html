@@ -3,6 +3,6 @@
 <button class="btn btn-primary" (click)="goBackToList()"><</button>
 </p>
 <div>
-  <h4 class="capitalize"> {{ (abilityProps$ | async ).name }} </h4>
-  <p> {{ ((abilityProps$ | async ).effect_entries) | findEng }}</p></div>
+  <h4 class="capitalize"> {{ abilityProps.name }} </h4>
+  <p> {{ (abilityProps.effect_entries) | findEng }}</p></div>
 </ng-container>

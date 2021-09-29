@@ -8,9 +8,15 @@ export const setPagination = createAction(
 
 export const loadList = createAction('[fetch-list] get list');
 
+export const loadListCheck = createAction('[fetch-list] get list check');
+
 export const loadListSuccess = createAction(
   '[fetch-list] load list',
-  props<{ pokemonListItems: PokemonDetails[]; totalCount: number; list : string[] }>()
+  props<{
+    pokemonListItems: PokemonDetails[];
+    totalCount: number;
+    lista: string[];
+  }>()
 );
 
 export const loadListError = createAction(
@@ -31,3 +37,13 @@ export const setFavs = createAction(
 );
 
 export const toggleLoading = createAction('[fetch-list] loading');
+
+export const loadDetail = createAction(
+  '[detail] load detail',
+  props<{ idOrName: string }>()
+);
+
+export const loadDetailsSuccess = createAction(
+  '[detail] load detail success',
+  props<{ pokemonDetails: PokemonDetails }>()
+);

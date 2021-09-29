@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { switchMap, map } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-
 import { PokemonApiService } from '../../PokemonApiService/pokemon-api.service';
 import { getAbilities, loadAbilitiesSuccess } from './abilities.actions';
-
-
 @Injectable()
 export class AbilitiesListEffects {
   constructor(

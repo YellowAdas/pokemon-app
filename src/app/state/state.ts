@@ -1,20 +1,19 @@
-import { createSelector } from '@ngrx/store/src/selector';
+
 import {
-  pokemonDetailFeatureKey,
-  PokemonDetailState,
-  selectDetails,
-} from './PokemonDetail/detailsReducers';
+  pokemonAbilitiesFeatureKey,
+  PokemonAbilitiesState,
+} from './abilities/abilities.reducer';
+import {
+  pokemonTypesFeatureKey,
+  PokemonTypesState,
+} from './types/types.reducers';
 import {
   pokemonListFeatureKey,
   PokemonListState,
-} from './list/listReducers';
-
-import { pokemonAbilitiesFeatureKey, PokemonAbilitiesState, selectPokemonAbilities } from './abilities/abilities.reducer';
-import { pokemonTypesFeatureKey, PokemonTypesState } from './types/types.reducers';
+} from './list-via-entities/listReducers';
 
 export interface AppState {
   [pokemonListFeatureKey]: PokemonListState;
-  [pokemonDetailFeatureKey]: PokemonDetailState;
   [pokemonAbilitiesFeatureKey]: PokemonAbilitiesState;
   [pokemonTypesFeatureKey]: PokemonTypesState;
 }

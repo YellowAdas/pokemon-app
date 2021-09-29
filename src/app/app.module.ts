@@ -16,24 +16,22 @@ import { PokemonListComponent } from './components/pokemon-list/pokemon-list.com
 import {
   ListReducer,
   pokemonListFeatureKey,
-} from './state/list/listReducers';
-import { ListEffects } from './state/list/listEffects';
+} from './state/list-via-entities/listReducers';
+import { ListEffects } from './state/list-via-entities/listEffects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PokemonTypeToColorPipe } from './pipes/pokemon-type-to-color.pipe';
-import { DetailsEffects } from './state/PokemonDetail/detailsEffects';
 import {
   pokemonAbilitiesReducer,
   pokemonAbilitiesFeatureKey,
 } from './state/abilities/abilities.reducer';
-import {
-  DetailsReducer,
-  pokemonDetailFeatureKey,
-} from './state/PokemonDetail/detailsReducers';
 import { DetailAbilityComponent } from './components/pokemon-detail/detail-ability/detail-ability.component';
 import { FindEngPipe } from './components/pokemon-detail/detail-ability/find-eng.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { AbilitiesListEffects } from './state/abilities/abilities.effects';
-import { pokemonTypesFeatureKey, pokemonTypesReducer } from './state/types/types.reducers';
+import {
+  pokemonTypesFeatureKey,
+  pokemonTypesReducer,
+} from './state/types/types.reducers';
 import { TypesListEffects } from './state/types/types.effects';
 
 const appRoutes: Routes = [
@@ -61,13 +59,16 @@ const appRoutes: Routes = [
     StoreModule.forRoot(
       {
         [pokemonListFeatureKey]: ListReducer,
-        [pokemonDetailFeatureKey]: DetailsReducer,
         [pokemonAbilitiesFeatureKey]: pokemonAbilitiesReducer,
         [pokemonTypesFeatureKey]: pokemonTypesReducer,
       },
       {}
     ),
-    EffectsModule.forRoot([ListEffects, DetailsEffects, AbilitiesListEffects, TypesListEffects]),
+    EffectsModule.forRoot([
+      ListEffects,
+      AbilitiesListEffects,
+      TypesListEffects,
+    ]),
     StoreDevtoolsModule.instrument({}),
   ],
   declarations: [

@@ -5,12 +5,10 @@ import {
   on,
   createSelector,
 } from '@ngrx/store';
-import {
-  PokemonDetails,
-  PokemonType,
-} from '../../models/pokemon-details.model';
+import { PokemonDetails } from '../../models/pokemon-details.model';
 import { AppState } from '../state';
 import {
+  loadDetailsSuccess,
   loadList,
   loadListSuccess,
   setFavs,
@@ -21,8 +19,7 @@ import {
 export interface PokemonListState extends EntityState<PokemonDetails> {
   // additional state property
   isLoaded: boolean;
-
-  list: { pokemonList: PokemonDetails[]; error: string };
+  currentPageIds: string[];
   pagination: {
     currentPage: number;
     limit: number;
@@ -40,8 +37,7 @@ export const adapter: EntityAdapter<PokemonDetails> =
 export const initialState: PokemonListState = adapter.getInitialState({
   // additional entity state properties
   isLoaded: false,
-
-  list: { pokemonList: [], error: '' },
+  currentPageIds: [],
   pagination: {
     currentPage: 0,
     limit: 5,
@@ -54,19 +50,15 @@ export const initialState: PokemonListState = adapter.getInitialState({
 export const ListReducer = createReducer<PokemonListState>(
   initialState,
   on(loadList, (state, action) => ({ ...state, isLoading: true })),
-  on(loadListSuccess, (state, action) => ({
-    ...state,
-    list: { pokemonList: action.pokemonListItems, error: '' },
-    pagination: {
-      ...state.pagination,
-      totalCount: action.totalCount,
-    },
-    isLoading: false,
-  })),
-
   on(loadListSuccess, (state, action) => {
-    return adapter.setAll(action.pokemonListItems, {
+    return adapter.addMany(action.pokemonListItems, {
       ...state,
+      pagination: {
+        ...state.pagination,
+        totalCount: action.totalCount,
+      },
+      currentPageIds: action.lista,
+      // z parametru currentPageIds
       isLoading: false,
     });
   }),
@@ -95,17 +87,16 @@ export const ListReducer = createReducer<PokemonListState>(
   on(setFavs, (state, action) => ({
     ...state,
     favorites: action.favorites,
-  }))
+  })),
+  on(loadDetailsSuccess, (state, action) => {
+    return adapter.addOne(action.pokemonDetails, {...state});
+  })
 );
 
 const { selectIds, selectEntities, selectAll, selectTotal } =
   adapter.getSelectors();
 
 export const pokemonListFeatureKey = 'PokemonList';
-
-export const selectItems = (state: PokemonListState) => state.list.pokemonList;
-
-export const selectError = (state: PokemonListState) => state.list.error;
 
 export const _selectFav = (state: PokemonListState) => state.favorites;
 
@@ -116,8 +107,15 @@ export const selectPokemonListState = createFeatureSelector<
 
 export const selectPokemonListItems = createSelector(
   selectPokemonListState,
-  selectItems
-  // (state) => state.list.pokemonList.map(detail => ({...detail, favorite: state.favorites.includes(detail.id)}))
+  (state) => {
+    console.log('State.currentPageIds: ', state.currentPageIds);
+    console.log('State.entities: ', state.entities);
+
+    return state.currentPageIds.map((id) => {
+      console.log(id);
+      return state.entities[id];
+    });
+  }
 );
 
 export const selectPokemonListPagination = createSelector(
@@ -130,4 +128,14 @@ export const selectFav = createSelector(selectPokemonListState, _selectFav);
 export const selectIsLoading = createSelector(
   selectPokemonListState,
   (state) => state.isLoading
+);
+
+export const selectPokemonListIds = createSelector(
+  selectPokemonListState,
+  selectIds
+);
+
+export const selectPokemonDetail = createSelector(
+  selectPokemonListState,
+  selectEntities
 );
