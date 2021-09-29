@@ -51,6 +51,7 @@
       [length]="(pagination$ | async).totalCount"
       [pageSize]="(pagination$ | async).limit"
       [pageSizeOptions]="[10, 25, 50, 100]"
+      [pageIndex]="(pagination$ | async).currentPage"
       aria-label="Select page"
       (page)="onPageChange($event)"
     >

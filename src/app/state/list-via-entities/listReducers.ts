@@ -89,7 +89,7 @@ export const ListReducer = createReducer<PokemonListState>(
     favorites: action.favorites,
   })),
   on(loadDetailsSuccess, (state, action) => {
-    return adapter.addOne(action.pokemonDetails, {...state});
+    return adapter.addOne(action.pokemonDetails, { ...state });
   })
 );
 
