@@ -48,3 +48,9 @@ export const pokemonAbilitiesIsLoaded = createSelector(
   selectPokemonAbilitiesState,
   (state) => state.isLoaded
 );
+
+export const selectPokemonAbilitiesIds = createSelector(
+  selectPokemonAbilitiesState,
+  selectIds
+);
+

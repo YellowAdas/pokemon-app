@@ -15,6 +15,7 @@ import {
 } from 'src/app/state/list-via-entities/listReducers';
 import { map } from 'rxjs/operators';
 import { loadDetail } from 'src/app/state/list-via-entities/listActions';
+import { getAbilitiesById } from 'src/app/state/abilities/abilities.actions';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -38,6 +39,12 @@ export class PokemonDetailComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(loadDetail({ idOrName: this.paramsName }));
+    this.pokemonDetail$.subscribe((pokemonDetail) => {
+      const ids = pokemonDetail.abilities.map(
+        (ability) => ability.ability.name
+      );
+      this.store.dispatch(getAbilitiesById({ abilitiesIds: ids }));
+    });
   }
 
   goBackToList() {

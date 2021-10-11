@@ -15,6 +15,7 @@ import {
   selectIsLoading,
 } from '../../state/list-via-entities/listReducers';
 import { PokemonDetails } from '../../models/pokemon-details.model';
+import { getAbilities } from 'src/app/state/abilities/abilities.actions';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -35,6 +36,7 @@ export class PokemonListComponent implements OnInit {
   toggleList = true;
 
   ngOnInit() {
+    
     this.store.dispatch(loadList());
     this.store.dispatch(initFavs());
     this.items$.subscribe((items) => {

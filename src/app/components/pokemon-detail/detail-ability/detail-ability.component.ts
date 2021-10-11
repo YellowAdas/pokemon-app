@@ -3,7 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getAbilities } from 'src/app/state/abilities/abilities.actions';
+import {
+  getAbilities,
+  getAbilityById,
+} from 'src/app/state/abilities/abilities.actions';
 import { PokemonAbility } from '../../../models/pokemon-details.model';
 import { selectPokemonAbilities } from '../../../state/abilities/abilities.reducer';
 
@@ -25,7 +28,7 @@ export class DetailAbilityComponent implements OnInit {
     .pipe(map((abilities) => abilities[this.paramsName]));
 
   ngOnInit() {
-    this.store.dispatch(getAbilities());
+    this.store.dispatch(getAbilityById({ abilityId: this.paramsName }));
   }
 
   goBackToList() {
