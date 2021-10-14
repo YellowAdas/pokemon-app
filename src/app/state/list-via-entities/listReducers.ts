@@ -8,6 +8,7 @@ import {
 import { PokemonDetails } from '../../models/pokemon-details.model';
 import { AppState } from '../state';
 import {
+  initNotes,
   loadDetailsSuccess,
   loadList,
   loadListSuccess,
@@ -27,6 +28,7 @@ export interface PokemonListState extends EntityState<PokemonDetails> {
   };
   favorites: number[];
   isLoading: boolean;
+  addnotations: { [id: string]: { notes: string, favorite: boolean } };
 }
 
 export const adapter: EntityAdapter<PokemonDetails> =
@@ -45,6 +47,7 @@ export const initialState: PokemonListState = adapter.getInitialState({
   },
   favorites: [],
   isLoading: false,
+  addnotations: {},
 });
 
 export const ListReducer = createReducer<PokemonListState>(
@@ -82,12 +85,23 @@ export const ListReducer = createReducer<PokemonListState>(
     } else {
       favoritesPokemons.delete(id);
     }
-    return { ...state, favorites: [...favoritesPokemons] };
+    const pokemonAddnotation = state.addnotations[action.id] ?? {favorite: false, notes: ""};
+    const newPokemonAddnotation = { ...pokemonAddnotation, favorite: !pokemonAddnotation.favorite  };
+    const newAddnotations = {
+      ...state.addnotations,
+      [action.id]: newPokemonAddnotation,
+    };
+    return {
+      ...state,
+      favorites: [...favoritesPokemons],
+      addnotations: newAddnotations,
+    };
   }),
   on(setFavs, (state, action) => ({
     ...state,
     favorites: action.favorites,
   })),
+
   on(loadDetailsSuccess, (state, action) => {
     return adapter.addOne(action.pokemonDetails, { ...state });
   })

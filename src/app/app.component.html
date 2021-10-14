@@ -1,9 +1,9 @@
-
-  <div class="container">
-    <app-header></app-header>
-    <div class="row" *ngIf="(isLoaded$ | async)">
-      <div class="col-md-12">
-        <router-outlet></router-outlet>
-      </div>
+<div class="container">
+  <app-header></app-header>
+  <div><input /></div>
+  <div class="row" *ngIf="isLoaded$ | async">
+    <div class="col-md-12">
+      <router-outlet></router-outlet>
     </div>
   </div>
+</div>

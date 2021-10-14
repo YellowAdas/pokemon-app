@@ -10,6 +10,8 @@ import {
   loadDetail,
   loadDetailsSuccess,
   loadList,
+  initNotes,
+  setNotes,
 } from './listActions';
 import { switchMap, catchError, map, tap } from 'rxjs/operators';
 import { EMPTY, forkJoin, of, pipe } from 'rxjs';
@@ -119,6 +121,16 @@ export class ListEffects {
       map(() => {
         const parsed = JSON.parse(localStorage.getItem('Favorites')) ?? [];
         return setFavs({ favorites: parsed });
+      })
+    )
+  );
+
+  initNotes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(initNotes),
+      map(() => {
+        const parsed = JSON.parse(localStorage.getItem('Notatki: ')) ?? '';
+        return setNotes({ quickNote: parsed });
       })
     )
   );

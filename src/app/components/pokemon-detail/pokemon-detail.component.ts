@@ -16,6 +16,7 @@ import {
 import { map } from 'rxjs/operators';
 import { loadDetail } from 'src/app/state/list-via-entities/listActions';
 import { getAbilitiesById } from 'src/app/state/abilities/abilities.actions';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -37,6 +38,11 @@ export class PokemonDetailComponent implements OnInit {
   types$: Observable<Dictionary<PokemonType>> =
     this.store.select(selectPokemonTypes);
 
+  notesForm: FormGroup;
+  initNote = JSON.parse(
+    localStorage.getItem(`NOTES_${this.paramsName}`) ?? '{}'
+  );
+
   ngOnInit() {
     this.store.dispatch(loadDetail({ idOrName: this.paramsName }));
     this.pokemonDetail$.subscribe((pokemonDetail) => {
@@ -44,6 +50,11 @@ export class PokemonDetailComponent implements OnInit {
         (ability) => ability.ability.name
       );
       this.store.dispatch(getAbilitiesById({ abilitiesIds: ids }));
+    });
+    this.notesForm = new FormGroup({
+      quickNote: new FormControl(this.initNote.quickNote, [
+        Validators.maxLength(5),
+      ]),
     });
   }
 
@@ -54,4 +65,12 @@ export class PokemonDetailComponent implements OnInit {
   items$: Observable<PokemonDetails[]> = this.store.pipe(
     select(selectPokemonListItems)
   );
+
+  onSubmit() {
+    console.log(this.notesForm.value);
+    localStorage.setItem(
+      `NOTES_${this.paramsName}`,
+      JSON.stringify(this.notesForm.value)
+    );
+  }
 }

@@ -24,6 +24,13 @@ export const loadListError = createAction(
   props<{ message: string }>()
 );
 
+export const initNotes = createAction('[quick-notes] Initializing');
+
+export const setNotes = createAction(
+  '[quick-notes] Setting',
+  props<{ quickNote: string }>()
+);
+
 export const toggleFavs = createAction(
   '[fav-list] toggle',
   props<{ id: number }>()
