@@ -12,8 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PokemonDetailComponent } from './components/pokemon-detail/pokemon-detail.component';
@@ -38,7 +36,8 @@ import {
   pokemonTypesReducer,
 } from './state/types/types.reducers';
 import { TypesListEffects } from './state/types/types.effects';
-import { ControlValueAccessorDirective } from './shared/control-value-accessor.directive';
+import { ValueAccessorComponent } from './value-accessor/value-accessor.component';
+import { AppLockInputComponent } from './app-lock-input/app-lock-input.component';
 
 const appRoutes: Routes = [
   { path: '', component: PokemonListComponent },
@@ -88,7 +87,8 @@ const appRoutes: Routes = [
     PokemonTypeToColorPipe,
     DetailAbilityComponent,
     FindEngPipe,
-    ControlValueAccessorDirective,
+    ValueAccessorComponent,
+    AppLockInputComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
