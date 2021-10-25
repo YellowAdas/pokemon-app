@@ -12,7 +12,10 @@ export class ValueAccessorComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({ itemName: new FormControl() });
+    this.form = this.formBuilder.group({
+      itemName: new FormControl(),
+      isLocked: new FormControl(),
+    });
   }
 
   onSubmit() {
