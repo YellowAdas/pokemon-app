@@ -36,8 +36,6 @@ import {
   pokemonTypesReducer,
 } from './state/types/types.reducers';
 import { TypesListEffects } from './state/types/types.effects';
-import { ValueAccessorComponent } from './value-accessor/value-accessor.component';
-import { AppLockInputComponent } from './app-lock-input/app-lock-input.component';
 
 const appRoutes: Routes = [
   { path: '', component: PokemonListComponent },
@@ -87,8 +85,6 @@ const appRoutes: Routes = [
     PokemonTypeToColorPipe,
     DetailAbilityComponent,
     FindEngPipe,
-    ValueAccessorComponent,
-    AppLockInputComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
